@@ -4,17 +4,17 @@ module Problem13
 
 import Data.Char (digitToInt)
 import Data.List (transpose, reverse)
+import qualified Data.Problem13
 import Utils (dataFile)
 
-sumDigits :: Int -> String -> Int
-sumDigits = foldl (\p d -> p + digitToInt d)
-
-longSum :: [[Char]] -> [Int]
-longSum numbers = scanl sumDigits 0 byDigit
+longSum :: [String] -> [Int]
+longSum numbers = addRemainders $ scanl sumDigits 0 byDigit
   where
     byDigit = reverse . transpose $ numbers
+    sumDigits = foldl (+) . map digitToInt
+    addRemainders sums = scanl carryForward 0 $ reverse sums
 
 p13 :: String
 p13 = concatMap show . take 10 . longSum $ numbers
   where
-    numbers = lines $ dataFile "problem13"
+    numbers = lines Data.Problem13.input
