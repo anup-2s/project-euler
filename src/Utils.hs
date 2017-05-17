@@ -1,8 +1,10 @@
 module Utils
   ( isqrt
   , numFactors
-  , readLines
+  , dataFile
   ) where
+
+import Paths_project_euler
 
 isqrt
   :: Integral i
@@ -19,5 +21,7 @@ numFactors x =
           else y
   in addSquareFactor . (* 2) . length $ nonSquareFactors
 
-readLines :: String -> IO String
-readLines = error "Undefined"
+dataFile :: String -> IO String
+dataFile file = do
+  fullPath <- getDataFileName $ "data/" ++ file ++ ".txt"
+  readFile fullPath
