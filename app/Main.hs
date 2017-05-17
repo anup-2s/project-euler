@@ -4,4 +4,4 @@ import Data.Maybe
 import Lib
 
 main :: IO ()
-main = print . fromMaybe "Problem not solved" $ problem "12"
+main = print . fromMaybe "Problem not solved" $ problem "13"
