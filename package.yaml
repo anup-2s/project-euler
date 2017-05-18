@@ -36,5 +36,3 @@ tests:
     dependencies:
     - base
     - project-euler
-data-files:
-- data/*.txt
