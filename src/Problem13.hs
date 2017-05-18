@@ -11,8 +11,14 @@ longSum :: [String] -> [Int]
 longSum numbers = addRemainders $ scanl sumDigits 0 byDigit
   where
     byDigit = reverse . transpose $ numbers
-    sumDigits = foldl (+) . map digitToInt
-    addRemainders sums = scanl carryForward 0 $ reverse sums
+    sumDigits prev = foldl (+) prev . map digitToInt
+    addRemainders sums = reverse . carryForward . reverse
+    carryForward (x:y:xs)
+      | x >= 10 = (x - 10) : (carryForward (y + 1) : xs)
+      | otherwise = x : carryForward (y : xs)
+    carryForward (x:[])
+      | x >= 10 = (x - 10) : 1 : []
+      | otherwise = x : []
 
 p13 :: String
 p13 = concatMap show . take 10 . longSum $ numbers
