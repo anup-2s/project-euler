@@ -8,22 +8,24 @@ import qualified Data.Problem13
 import Utils (dataFile)
 
 carryForward :: [Int] -> [Int]
-carryForward (x:y:xs)
-  | x >= 10 = (x - 10) : carryForward ((y + 1) : xs)
-  | otherwise = x : carryForward (y : xs)
-carryForward [x]
-  | x >= 10 = [x - 10, 1]
-  | otherwise = [x]
-carryForward [] = []
-
-longSum :: [String] -> [Int]
-longSum numbers = addRemainders $ map sumDigits byDigit
+carryForward (x:y:xs) = rem : carryForward (next : xs)
   where
-    byDigit = reverse . transpose $ numbers
-    sumDigits = sum . map digitToInt
-    addRemainders = reverse . carryForward
+    rem = x `mod` 10
+    carry = x `div` 10
+    next = y + carry
+carryForward [x]
+  | x >= 10 = carryForward [x, 0]
+  | otherwise = [x]
+
+computeSum :: [[Int]] -> [Int]
+computeSum = carryBackwards . map sum
+  where
+    carryBackwards = reverse . carryForward . reverse
+
+readData :: [String] -> [[Int]]
+readData = map (map digitToInt) . transpose
 
 p13 :: String
-p13 = concatMap show . take 13 . longSum $ numbers
+p13 = concatMap show . take 10 . computeSum . readData $ numbers
   where
     numbers = lines Data.Problem13.input
