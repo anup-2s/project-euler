@@ -28,6 +28,7 @@ library
   exposed-modules:
       Lib
   other-modules:
+      Data.Problem13
       Problem12
       Problem13
       Utils
