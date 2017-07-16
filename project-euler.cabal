@@ -32,6 +32,7 @@ library
       Problem12
       Problem13
       Problem14
+      Problem15
       Utils
       Paths_project_euler
   build-depends:
